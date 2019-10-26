@@ -5,9 +5,9 @@ Created on Wed Oct  2 20:09:53 2019
 @author: karti
 """
 
-from PyQt5 import QtWidgets, uic
+from PyQt5 import QtWidgets, uic, QtCore
 import pyqtgraph as pg
-from geoschelling import *
+from app.geoschelling import *
 import numpy as np
 import sys
 
@@ -15,7 +15,7 @@ class App(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         super(App, self).__init__(parent)
         uic.loadUi(
-            "res/schelling.ui",    
+            "app/res/schelling.ui",    
             self
         )
 
@@ -73,62 +73,63 @@ class App(QtWidgets.QMainWindow):
             "WY",
         ]
 
-        self.shapefilepath = "./State_Shapefiles/AK/AK.shp"
+        self.shapefilepath = "./app/State_Shapefiles/AK/AK.shp"
         self.spacing = 0.1
         self.empty_ratio = 0.1
         self.demographic_ratio = 0.01
         self.similarity_threshold = 0.01
+        self.update_geo = None
+        self.spacingLabel.setText(str(self.spacing))
+        self.emptyLabel.setText(str(self.empty_ratio))
+        self.similarityLabel.setText(str(self.similarity_threshold))
+        self.demographicLabel.setText(str(self.demographic_ratio))
 
-        self.label_6.setText(str(self.spacing))
-        self.label_7.setText(str(self.empty_ratio))
-        self.label_8.setText(str(self.similarity_threshold))
-        self.label_9.setText(str(self.demographic_ratio))
-
-        self.pushButton_3.clicked.connect(self.populate)
-        self.pushButton.clicked.connect(self.update)
-        self.horizontalSlider.valueChanged.connect(
+        self.populateButton.clicked.connect(self.populate)
+        self.runButton.clicked.connect(self.update)
+        self.endButton.clicked.connect(self.kill)
+        self.spacingSlider.valueChanged.connect(
             self.set_spacing
         )
-        self.horizontalSlider_2.valueChanged.connect(
+        self.emptyratioSlider.valueChanged.connect(
             self.set_empty_ratio
         )
-        self.horizontalSlider_4.valueChanged.connect(
+        self.demographicSlider.valueChanged.connect(
             self.set_demographic_ratio
         )
-        self.horizontalSlider_3.valueChanged.connect(
+        self.similaritySlider.valueChanged.connect(
             self.set_similarity_threshold
         )
         self.comboBox.addItems(state_names)
         self.comboBox.activated.connect(self.set_filepath)
 
     def set_spacing(self):
-        self.spacing = self.horizontalSlider.value() / 100
-        self.label_6.setText(str(self.spacing))
+        self.spacing = self.spacingSlider.value() / 100
+        self.spacingLabel.setText(str(self.spacing))
         print(self.spacing)
 
     def set_empty_ratio(self):
         self.empty_ratio = (
-            self.horizontalSlider_2.value() / 10
+            self.emptyratioSlider.value() / 10
         )
-        self.label_7.setText(str(self.empty_ratio))
+        self.emptyLabel.setText(str(self.empty_ratio))
         print(self.empty_ratio)
+        
+    def set_similarity_threshold(self):
+        self.similarity_threshold = (
+            self.similaritySlider.value() / 100
+        )
+        self.similarityLabel.setText(str(self.similarity_threshold))
+        print(self.similarity_threshold)
 
     def set_demographic_ratio(self):
         self.demographic_ratio = (
-            self.horizontalSlider_4.value() / 100
+            self.demographicSlider.value() / 100
         )
-        self.label_9.setText(str(self.demographic_ratio))
+        self.demographicLabel.setText(str(self.demographic_ratio))
         print(self.demographic_ratio)
 
-    def set_similarity_threshold(self):
-        self.similarity_threshold = (
-            self.horizontalSlider_3.value() / 100
-        )
-        self.label_8.setText(str(self.similarity_threshold))
-        print(self.similarity_threshold)
-
     def set_filepath(self):
-        self.shapefilepath = "./State_Shapefiles/{}/{}.shp".format(
+        self.shapefilepath = "./app/State_Shapefiles/{}/{}.shp".format(
             str(self.comboBox.currentText()),
             str(self.comboBox.currentText()),
         )
@@ -186,18 +187,9 @@ class App(QtWidgets.QMainWindow):
             ],
         )
           
-        style1 = pg.PlotDataItem(
-            pen=pg.mkPen(None), symbol="o",brush=pg.mkBrush(255, 255, 255, 20), symbolBrush=pg.mkBrush(255, 255, 255, 20)
-        )
-        style2 = pg.PlotDataItem(
-            pen=pg.mkPen(None), symbol="o", brush=pg.mkBrush(255, 255, 255, 20),symbolBrush=pg.mkBrush(255, 255, 255, 20)
-        )
-        legend = self.p.addLegend()
-        legend.addItem(style2, " Majority")
-        legend.addItem(style1, " Minority")
 
     def update(self):
-        update_geo = Update(
+        self.update_geo = Update(
             self.agent_houses,
             self.empty_houses,
             self.spacing,
@@ -208,12 +200,8 @@ class App(QtWidgets.QMainWindow):
             self.geometry
         )
         self.p.scatterPlot(clear=True)
-        update_geo.update()
-
-
-if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    ex = App()
-    # app.setWindowIcon(QtGui.QIcon(ex.resource_path("resources\pdf-to-excel-icon.png")))
-    ex.show()
-    app.exec_()
+        self.update_geo.update()
+    
+    def kill(self):
+        if self.update_geo is not None:
+            self.update_geo.kill = True

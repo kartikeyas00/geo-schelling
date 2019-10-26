@@ -108,6 +108,7 @@ class Update:
         self.shape_file = shape_file
         self.p = p
         self.geometry = geometry
+        self.kill = False
     def is_unsatisfied(
         self, agent, all_neighbours, race_list
     ):
@@ -187,7 +188,8 @@ class Update:
                 self.p.plot(i[:, 0], i[:, 1], pen=pg.mkPen( width=3))
             
             QtGui.QApplication.processEvents()
-            
+            if self.kill:
+                break
             if changes == 0:
                 break
             print("n Changes---->" + str(changes))
