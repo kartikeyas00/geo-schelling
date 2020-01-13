@@ -71,3 +71,6 @@ The Schelling model of segregation is an agent-based model that illustrates how 
 
 ## Motivation to build the Geographical version
 The main motivation was that in lots of agent based modeling cases and especially in schelling's model of segregation, geological or geographical version is not present or when they are present they are not very well implemented. I wanted to see the schelling's model simulating on a real geography and the outcomes of the simulation as the model is based for real world. After implementing the model and visually seeing the result, I was able to conclude thaat how segregation can happen in the real world (Obviously if we leave certain factors alone) based on the Shelling's approach. 
+
+## Questions ??
+Don't hesitate to contact me at kartikeya2015@gmail.com
