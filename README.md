@@ -1,5 +1,5 @@
 # Geo-schelling
-### Geographical version of Schelling's Model of Segregation
+Geo-schelling is an app built with PyQt5 and PyQtGraph to run the simulation of Schelling's Model of Segregation on a geographical map.
 
 ![Screenshot](https://github.com/kartikeyas00/geo-schelling/blob/master/screenshots/geoschelling2.JPG)
 
