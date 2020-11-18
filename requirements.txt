@@ -66,7 +66,7 @@ munch==2.3.2
 nbconvert==5.5.0
 nbformat==4.4.0
 networkx==2.3
-notebook==6.0.0
+notebook==6.1.5
 numba==0.45.0
 numpy==1.16.4
 numpydoc==0.9.1
