@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Oct  1 10:15:36 2019
-
-@author: ksharma
-"""
-
 import geopandas as gp
 import numpy as np
 import pandas as pd
@@ -13,6 +6,7 @@ from scipy.spatial import cKDTree
 from collections import defaultdict
 from PyQt5 import  QtGui
 import pyqtgraph as pg
+
 
 def load_shape_file(filename):
     return (
@@ -192,6 +186,4 @@ class Update:
                 break
             if changes == 0:
                 break
-            print("n Changes---->" + str(changes))
-            print("Majority Agents Number ----> " + str(len(self.agent_houses[:,0][self.agent_houses[:,0]==0])))
-            print("Minority Agents Number ----> " + str(len(self.agent_houses[:,0][self.agent_houses[:,0]==1])))            
+            print("Number of Agents Moved ----> " + str(changes))

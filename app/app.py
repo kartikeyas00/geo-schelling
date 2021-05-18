@@ -1,21 +1,13 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Oct  2 20:09:53 2019
-
-@author: karti
-"""
-
-from PyQt5 import QtWidgets, uic, QtCore
+from PyQt5 import QtWidgets, uic
 import pyqtgraph as pg
-from app.geoschelling import *
+from utils import load_shape_file, populate_simulation, Update
 import numpy as np
-import sys
 
 class App(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         super(App, self).__init__(parent)
         uic.loadUi(
-            "app/res/schelling.ui",    
+            "res/schelling.ui",    
             self
         )
 
@@ -73,7 +65,7 @@ class App(QtWidgets.QMainWindow):
             "WY",
         ]
 
-        self.shapefilepath = "./app/State_Shapefiles/AK/AK.shp"
+        self.shapefilepath = "shapefiles/AK/AK.shp"
         self.spacing = 0.1
         self.empty_ratio = 0.1
         self.demographic_ratio = 0.01
@@ -105,31 +97,27 @@ class App(QtWidgets.QMainWindow):
     def set_spacing(self):
         self.spacing = self.spacingSlider.value() / 100
         self.spacingLabel.setText(str(self.spacing))
-        print(self.spacing)
 
     def set_empty_ratio(self):
         self.empty_ratio = (
             self.emptyratioSlider.value() / 10
         )
         self.emptyLabel.setText(str(self.empty_ratio))
-        print(self.empty_ratio)
         
     def set_similarity_threshold(self):
         self.similarity_threshold = (
             self.similaritySlider.value() / 100
         )
         self.similarityLabel.setText(str(self.similarity_threshold))
-        print(self.similarity_threshold)
 
     def set_demographic_ratio(self):
         self.demographic_ratio = (
             self.demographicSlider.value() / 100
         )
         self.demographicLabel.setText(str(self.demographic_ratio))
-        print(self.demographic_ratio)
 
     def set_filepath(self):
-        self.shapefilepath = "./app/State_Shapefiles/{}/{}.shp".format(
+        self.shapefilepath = "shapefiles/{}/{}.shp".format(
             str(self.comboBox.currentText()),
             str(self.comboBox.currentText()),
         )

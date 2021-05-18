@@ -6,20 +6,47 @@ Geo-schelling is an app built with PyQt5 and PyQtGraph to run the simulation of 
 
 ## How to run the App?
 
-* Install Python
+* Install Python3 ( I would recommend you to download it from [Anaconda](https://www.anaconda.com/products/individual))
 * Clone the [source repository](https://github.com/kartikeyas00/geo-schelling) from Github.
 * On the command line, enter:
     ````
     git clone https://github.com/kartikeyas00/geo-schelling.git
     ````
 * Install the relevant libraries by doing the following:
-    ````
-    pip install -r requirements.txt
-    ````
-* Now go to app folder and run the app
+  * Using [conda](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) (recommended)
+    * Open the terminal or an Anaconda Prompt and create a new environment
+      ````
+      conda env create -f environment.yml # environment.yml file is included in the project directory
+      ````
+    
+  * Using [pip](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
+    * Installing virtualenv
+      ````
+      python3 -m pip install --user virtualenv # On macOS and Linux
+      py -m pip install --user virtualenv :: On Windows
+      ````
+    * Creating a virtual environment
+
+      To create a virtual environment, go to your project’s directory and run venv.
+      ````
+      python3 -m venv env # On macOS and Linux
+      py -m venv env :: On Windows
+      ````
+    * Activating a virtual environment
+      ````
+      source env/bin/activate # On macOS and Linux
+      .\env\Scripts\activate :: On Windows
+      ````
+    * Install the requirements.txt file
+      ````
+      python3 -m pip install -r requirements.txt # On macOS and Linux
+      py -m pip install -r requirements.txt :: On Windows
+      ````
+    
+* Now go to app folder and run the run.py file
     ````
     cd geo-schelling/app
-    python app.py
+    python run.py
     ````
 
 ## About the App
